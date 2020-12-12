@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        purchasedFrom: {
+        purchased: {
             type: DataTypes.STRING,
             allowNull: true
         },
@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         owner: {
             type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        price: {
+            type: DataTypes.STRING,
             allowNull: false
         }
     })

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Holidays = require('../db').import('../models/holidays');
+const {Op} = require('sequelize')
 
 const validateSession = require('../middleware/validate-session');
 
@@ -10,6 +11,33 @@ router.get('/', (req, res) => {
     .then(item => res.status(200).json(item))
     .catch(err => res.status(500).json({error: err}))
 } );
+
+
+//get holiday by name
+router.get('/holiday/:holiday', (req, res) => {
+    Holidays.findAll({
+        where: {
+            holiday: {
+                [Op.iLike]: '%' + req.params.holiday + '%'
+            }
+        }
+    })
+    .then(item => res.status(200).json(item))
+    .catch(err => res.status(500).json({error: "Holiday not found"}))
+});
+
+//find holiday by date
+router.get('/date/:date', (req, res) => {
+    Holidays.findAll({
+        where: {
+            date: {
+                [Op.iLike]: '%' + req.params.date + '%'
+            }
+        }
+    })
+    .then(item => res.status(200).json(item))
+    .catch(err => res.status(500).json({error: "Date not found"}))
+})
 
 //put holiday into table
 router.post('/create', validateSession, (req, res) => {
@@ -23,7 +51,20 @@ router.post('/create', validateSession, (req, res) => {
     .catch(err => res.status(500).json({error: err}))
 });
 
-//get holiday by name
-//get holiday by date
+
+//delete holiday(s)
+router.delete('/holiday/:id', async (req, res) => {
+    try {
+        const result = await Holidays.destroy({
+            where: { id: req.params.id }
+        })
+
+        res.status(200).json(result)
+    } catch (err) {
+        res.status(500).json({error: "Holiday not deleted"});
+    }
+});
+
+
 
 module.exports = router;

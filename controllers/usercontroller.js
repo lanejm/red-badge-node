@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../db').import('../models/user');
 
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -45,7 +46,25 @@ router.post('/login', (req, res) => {
         }
     })
     .catch(err => res.status(500).json({ error: "database error" }))
-})
+});
 
+//find all users
+router.get('/', (req, res) => {
+    User.findAll()
+    .then(item => res.status(200).json(item))
+    .catch(err => res.status(500).json({error: err}))
+});
+
+
+//find user by id
+router.get('/userInfo/:id', (req, res) => {
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(item => res.status(200).json(item))
+    .catch(err => res.status(500).json({error: "User not found"}))
+});
 
 module.exports = router;

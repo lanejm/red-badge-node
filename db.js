@@ -9,4 +9,7 @@ database.authenticate()
 .then(() => console.log('postgres database is connected'))
 .catch(err => console.log(err))
 
+
 module.exports = database;
+
+//db association? 

@@ -18,9 +18,10 @@ router.post('/create', validateSession, (req, res) => {
         giftName: req.body.name,
         description: req.body.description,
         date: req.body.date,
-        purchasedFrom: req.body.purchased,
+        purchased: req.body.purchased,
         person: req.body.person,
-        owner: req.user.id
+        owner: req.user.id,
+        price: req.body.price
     } 
 
     Gifts.create(giftsFromRequest)
@@ -41,6 +42,33 @@ router.get('/name/:name', (req, res) => {
     .catch(err => res.status(500).json({error: "Gift not found"}))
 });
 
+//finds item by person 
+router.get('/person/:person', (req, res) => {
+    Gifts.findAll({
+        where: {
+            person: {
+                [Op.iLike]: '%' + req.params.person + '%'
+            }
+        }
+    })
+    .then(item => res.status(200).json(item))
+    .catch(err => res.status(500).json({error: "Person not found"}))
+});
+
+//finds item by price
+router.get('/price/:price', (req, res) => {
+    Gifts.findAll({
+        where: {
+            price: {
+                [Op.iLike]: '%' + req.params.price + '%'
+            }
+        }
+    })
+    .then(item => res.status(200).json(item))
+    .catch(err => res.status(500).json({error: "Price not found"}))
+})
+
+//find gift(s) by date
 router.get('/date/:date', (req, res) => {
     Gifts.findOne({
         where: {
@@ -53,8 +81,8 @@ router.get('/date/:date', (req, res) => {
     .catch(err => res.status(500).json({error: "Gift not found"}))
 });
 
-//update table
-router.put('/:id', (req, res) => {
+//update table based off ID
+router.put('/edit/:id', (req, res) => {
     Gifts.update(req.body, {
         where: {
             id: req.params.id
@@ -65,7 +93,7 @@ router.put('/:id', (req, res) => {
 });
 
 
-//delete entry - put in delete entry alert on front end
+//delete entire entry - put in delete entry alert on front end
 router.delete('/:id', async (req, res) => {
     try {
         const result = await Gifts.destroy({
@@ -80,6 +108,6 @@ router.delete('/:id', async (req, res) => {
 
 module.exports = router;
 
-//get gift by person, add day/month/year to table?
 //edit gift
+//purchased from? 
 //admin functionality 
