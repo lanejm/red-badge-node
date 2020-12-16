@@ -20,6 +20,7 @@ router.post('/create', validateSession, (req, res) => {
         date: req.body.date,
         purchased: req.body.purchased,
         person: req.body.person,
+        from: req.body.from,
         owner: req.user.id,
         price: req.body.price
     } 
@@ -79,6 +80,19 @@ router.get('/date/:date', (req, res) => {
     })
     .then(item => res.status(200).json(item))
     .catch(err => res.status(500).json({error: "Gift not found"}))
+});
+
+//find gift(s) by from
+router.get('/from/:from', (req, res) => {
+    Gifts.findAll({
+        where: {
+            from: {
+                [Op.iLike]: '%' + req.params.from + '%'
+            }
+        }
+    })
+    .then(item => res.status(200).json(item))
+    .catch(err => res.status(500).json({error: "Person not found"}))
 });
 
 //update table based off ID
