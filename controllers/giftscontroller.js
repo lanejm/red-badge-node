@@ -6,8 +6,8 @@ const validateSession = require('../middleware/validate-session');
 
 
 //find all entries
-router.get('/', (req, res) => {
-    Gifts.findAll()
+router.get('/:id', (req, res) => {
+    Gifts.findAll({where:{owner:req.params.id}})
     .then(item => res.status(200).json(item))
     .catch(err => res.status(500).json({error: err}))
 });
@@ -108,7 +108,7 @@ router.put('/edit/:id', (req, res) => {
 
 
 //delete entire entry - put in delete entry alert on front end
-router.delete('/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
     try {
         const result = await Gifts.destroy({
             where: { id: req.params.id }
@@ -125,3 +125,5 @@ module.exports = router;
 //edit gift
 //purchased from? 
 //admin functionality 
+
+//validate session for delete. 
