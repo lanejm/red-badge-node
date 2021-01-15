@@ -15,7 +15,7 @@ router.get('/:id', (req, res) => {
 //create gift table entry
 router.post('/create', validateSession, (req, res) => {
     const giftsFromRequest = {
-        giftName: req.body.name,
+        giftName: req.body.giftName,
         description: req.body.description,
         date: req.body.date,
         purchased: req.body.purchased,
