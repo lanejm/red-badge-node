@@ -5,7 +5,7 @@ const {Op} = require('sequelize')
 const validateSession = require('../middleware/validate-session');
 
 
-//find all entries
+//find all entries by individual
 router.get('/:id', (req, res) => {
     Gifts.findAll({where:{owner:req.params.id}})
     .then(item => res.status(200).json(item))
