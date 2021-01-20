@@ -5,9 +5,12 @@ const {Op} = require('sequelize')
 const validateSession = require('../middleware/validate-session');
 
 
-//find all entries by individual
+//find all entries by individual, returns in alphabetical order by giftName
 router.get('/:id', (req, res) => {
-    Gifts.findAll({where:{owner:req.params.id}})
+    Gifts.findAll({
+        where:{owner:req.params.id}, 
+        order: [['giftName']]
+    })
     .then(item => res.status(200).json(item))
     .catch(err => res.status(500).json({error: err}))
 });
@@ -103,7 +106,7 @@ router.put('/edit/:id', (req, res) => {
         }
     })
     .then(gifts => res.status(200).json(gifts))
-    .catch(err => res.status(500).json({error: "Update not successful"}))
+    .catch(err => res.status(500).json({error: err}))
 });
 
 
