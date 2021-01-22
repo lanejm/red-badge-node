@@ -35,7 +35,7 @@ router.post('/create', validateSession, (req, res) => {
 
 //get gift by name
 router.get('/name/:name', (req, res) => {
-    Gifts.findOne({
+    Gifts.findAll({
         where: {
             giftName: {
                 [Op.iLike]: '%' + req.params.name + '%'
