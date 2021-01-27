@@ -4,6 +4,7 @@ const User = require('../db').import('../models/user');
 
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const validateSession = require('../middleware/validate-session');
 
 router.post('/register', (req, res) => {
     User.create({

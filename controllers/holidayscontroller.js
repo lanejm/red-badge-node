@@ -40,7 +40,7 @@ router.get('/date/:date', (req, res) => {
 })
 
 //put holiday into table
-router.post('/create', validateSession, (req, res) => {
+router.post('/create', (req, res) => {
     const holidaysFromRequest = {
         holiday: req.body.holiday,
         date: req.body.date,
