@@ -6,8 +6,11 @@ const validateSession = require('../middleware/validate-session');
 
 
 //get all holidays
-router.get('/', (req, res) => {
-    Holidays.findAll()
+router.get('/:id', (req, res) => {
+    Holidays.findAll({
+        where:{owner:req.params.id},
+        order:[['holiday']]
+    })
     .then(item => res.status(200).json(item))
     .catch(err => res.status(500).json({error: err}))
 } );
@@ -40,10 +43,12 @@ router.get('/date/:date', (req, res) => {
 })
 
 //put holiday into table
-router.post('/create', (req, res) => {
+router.post('/create', validateSession, (req, res) => {
     const holidaysFromRequest = {
         holiday: req.body.holiday,
         date: req.body.date,
+        owner: req.user.id,
+        received: req.body.received
     }
 
     Holidays.create(holidaysFromRequest)
@@ -53,7 +58,7 @@ router.post('/create', (req, res) => {
 
 
 //delete holiday(s)
-router.delete('/holiday/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
     try {
         const result = await Holidays.destroy({
             where: { id: req.params.id }
