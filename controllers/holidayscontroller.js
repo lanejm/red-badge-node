@@ -17,9 +17,10 @@ router.get('/:id', (req, res) => {
 
 
 //get holiday by name
-router.get('/holiday/:holiday', (req, res) => {
+router.get('/holiday/:holiday', validateSession, (req, res) => {
     Holidays.findAll({
         where: {
+            owner: req.user.id,
             holiday: {
                 [Op.iLike]: '%' + req.params.holiday + '%'
             }
@@ -54,6 +55,17 @@ router.post('/create', validateSession, (req, res) => {
     Holidays.create(holidaysFromRequest)
     .then(item => res.status(200).json(item))
     .catch(err => res.status(500).json({error: err}))
+});
+
+//edit holiday
+router.put('/edit/:id', (req, res) => {
+    Holidays.update(req.body, {
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(gifts => res.status(200).json(gifts))
+        .catch(err => res.status(500).json({ error: err }))
 });
 
 
