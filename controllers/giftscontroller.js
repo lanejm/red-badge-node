@@ -127,9 +127,3 @@ router.delete('/delete/:id', async (req, res) => {
 })
 
 module.exports = router;
-
-//edit gift
-//purchased from? 
-//admin functionality 
-
-//validate session for delete. 
