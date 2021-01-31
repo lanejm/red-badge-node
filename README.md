@@ -15,7 +15,7 @@ INSTALLATION
 
 You can visit the server side github repo for this project on [Github](https://github.com/lanejm/red-badge-node).
 
-You will need to run ### `npm install` to make sure you have the correct npm versions. 
+You will need to run ### `npm install` to make sure you have the correct npm versions and install nodemon to run your server.  
 
 You will also need to install sequelize, JWT, dotenv and Express. 
 
